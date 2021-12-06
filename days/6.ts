@@ -61,19 +61,6 @@ for (let i = 0; i < 256; i++) {
     inputTwo['6'] = previous['7'] + previous['0'];
     inputTwo['7'] = previous['8'];
     inputTwo['8'] = previous['0'];
-    // let toAppend = 0;
-    // for (let j = 0; j < inputTwo.length; j++) {
-    //     if (inputTwo[j] === 0) {
-    //         inputTwo[j] = 6;
-    //         toAppend++;
-    //     } else {
-    //         inputTwo[j] -= 1;
-    //     }
-    // }
-
-    // for (let k = 0; k < toAppend; k++) {
-    //     inputTwo.push(8);
-    // }
 }
 
 const total = inputTwo['0'] + inputTwo['1'] + inputTwo['2'] + inputTwo['3'] + inputTwo['4'] + inputTwo['5'] + inputTwo['6'] + inputTwo['7'] + inputTwo['8'];
