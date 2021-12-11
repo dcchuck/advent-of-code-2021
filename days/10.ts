@@ -35,20 +35,12 @@ const getIllegalChar = (inp: string): string => {
 
     let trackingString = '';
 
-    console.log('========^^^^^^^^========')
-    console.log('PROCESSING', inp);
     for (let i = 0; i < inp.length; i++) {
         if (opening.includes(inp[i])) {
             trackingString = trackingString + inp[i];
-            // console.log('OPENING FOUND', inp[i])
-            // count[inp[i]] += 1;
-            // console.log('COUNT', count)
         } else {
             const closingMatch = paired[inp[i]];
-            // console.log('TRACKING', trackingString)
-            // console.log('LOOKING FOR', closingMatch)
             if (trackingString[trackingString.length - 1] !== closingMatch) {
-                console.log('WE GOT ONE', closingMatch, paired[inp[i]])
                 return inp[i];
             } else {
                 trackingString = trackingString.slice(0,-1);
@@ -63,8 +55,73 @@ let partOnePoints = 0;
 
 for (let i = 0; i < input.length; i++) {
     const found = getIllegalChar(input[i]);
-    console.log('FOUND', found)
     partOnePoints += points[found];
 }
 
 console.log('Part 1', partOnePoints);
+
+const getRemainingString = (inp: string): string => {
+    const count: IPOTO = {
+        '{': 0,
+        '(': 0,
+        '[': 0,
+        '<': 0,
+    }
+
+    const paired: IPOTO= {
+        '}': '{',
+        ')': '(',
+        ']': '[',
+        '>': '<',
+    }
+
+    let trackingString = '';
+
+    for (let i = 0; i < inp.length; i++) {
+        if (opening.includes(inp[i])) {
+            trackingString = trackingString + inp[i];
+        } else {
+            const closingMatch = paired[inp[i]];
+            if (trackingString[trackingString.length - 1] !== closingMatch) {
+                return 'ERR';
+            } else {
+                trackingString = trackingString.slice(0,-1);
+            }
+        }
+    }
+
+    return trackingString;
+}
+
+const pointVals: IPOTO = {
+    '(': 1,
+    '[': 2,
+    '{': 3,
+    '<': 4,
+}
+const pointRemaining = (rem: string): number => {
+    let tracking = rem;
+    let points = 0;
+
+    while (tracking.length > 0) {
+        points = points * 5;
+        const char = tracking[tracking.length - 1];
+        points += pointVals[char];
+        tracking = tracking.slice(0,-1);
+    }
+
+    return points;
+}
+
+const vals = []
+for (let i = 0; i < input.length; i++) {
+    const remaining = getRemainingString(input[i]);
+
+    if (remaining !== 'ERR') {
+        vals.push(remaining);
+    }
+}
+
+const pt2Points = vals.map(pointRemaining).sort((p,c) => p - c);
+
+console.log('Answer 2:', pt2Points[(pt2Points.length - 1)/2]);
